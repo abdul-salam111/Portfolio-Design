@@ -15,15 +15,16 @@ class Project {
   final String? playstoreLink;
   final String? githublink;
 
-  const Project(
-      {required this.title,
-      required this.description,
-      required this.image,
-      required this.technologies,
-      required this.link,
-      this.appleLink,
-      this.githublink,
-      this.playstoreLink});
+  const Project({
+    required this.title,
+    required this.description,
+    required this.image,
+    required this.technologies,
+    required this.link,
+    this.appleLink,
+    this.githublink,
+    this.playstoreLink,
+  });
 }
 
 class ProjectsSection extends StatelessWidget {
@@ -35,7 +36,7 @@ class ProjectsSection extends StatelessWidget {
     final isTablet = ResponsiveBreakpoints.of(context).isTablet;
 
     return Container(
-      padding: const EdgeInsets.only(top: 40, bottom: 40),
+      padding: const EdgeInsets.symmetric(vertical: 40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -55,30 +56,22 @@ class ProjectsSection extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Theme.of(context).brightness == Brightness.light
                           ? Colors.black54
-                          : Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withOpacity(0.7),
+                          : Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                     ),
               ),
-              MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const AllProjectsScreen(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'See All',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w600,
-                        ),
+              GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AllProjectsScreen(),
                   ),
+                ),
+                child: Text(
+                  'See All',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
               ),
             ],
@@ -94,11 +87,7 @@ class ProjectsSection extends StatelessWidget {
               mainAxisSpacing: 24,
             ),
             itemCount: projects.length,
-            itemBuilder: (context, index) {
-              return ProjectCard(
-                project: projects[index],
-              );
-            },
+            itemBuilder: (context, index) => ProjectCard(project: projects[index]),
           ),
         ],
       ),
@@ -109,10 +98,7 @@ class ProjectsSection extends StatelessWidget {
 class ProjectCard extends StatefulWidget {
   final Project project;
 
-  const ProjectCard({
-    super.key,
-    required this.project,
-  });
+  const ProjectCard({super.key, required this.project});
 
   @override
   State<ProjectCard> createState() => _ProjectCardState();
@@ -141,208 +127,187 @@ class _ProjectCardState extends State<ProjectCard> {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            // Project Image
-            Image.asset(
-              widget.project.image,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  color: Colors.grey[200],
-                  child: const Center(
-                    child: Icon(
-                      Icons.error_outline,
-                      color: Colors.red,
-                      size: 40,
-                    ),
-                  ),
-                );
-              },
-            ),
-            // Project Title (Always visible)
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.transparent,
-                      Colors.black.withOpacity(0.7),
-                    ],
-                  ),
-                ),
-                child: Text(
-                  widget.project.title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            // Project Details Overlay (Desktop only)
-            if (!isMobile)
-              MouseRegion(
-                onEnter: (_) => setState(() => isHovered = true),
-                onExit: (_) => setState(() => isHovered = false),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                  decoration: BoxDecoration(
-                    color: isHovered
-                        ? Theme.of(context).colorScheme.primary.withOpacity(0.9)
-                        : Colors.transparent,
-                  ),
-                  child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 300),
-                    opacity: isHovered ? 1.0 : 0.0,
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            widget.project.title,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            widget.project.description,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          Wrap(
-                            spacing: 4,
-                            runSpacing: 4,
-                            children: [
-                              for (String tech in widget.project.technologies)
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 6,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Text(
-                                    tech,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              widget.project.githublink != null
-                                  ? Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(50)),
-                                      child: IconButton(
-                                          onPressed: () async {
-                                            final uri = Uri.parse(
-                                                widget.project.githublink!);
-                                            if (await canLaunchUrl(uri)) {
-                                              await launchUrl(uri);
-                                            }
-                                          },
-                                          icon: Image.network(
-                                            AppAssets.githubIconUrl,
-                                            height: 30,
-                                            width: 30,
-                                          )),
-                                    )
-                                  : const SizedBox.shrink(),
-                              widget.project.playstoreLink != null
-                                  ? const SizedBox(
-                                      width: 20,
-                                    )
-                                  : const SizedBox.shrink(),
-                              widget.project.appleLink != null
-                                  ? Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(50)),
-                                      child: IconButton(
-                                          onPressed: () async {
-                                            final uri = Uri.parse(
-                                                widget.project.appleLink!);
-                                            if (await canLaunchUrl(uri)) {
-                                              await launchUrl(uri);
-                                            }
-                                          },
-                                          icon: Image.network(
-                                            AppAssets.appStoreIconUrl,
-                                            height: 30,
-                                            width: 30,
-                                          )),
-                                    )
-                                  : const SizedBox.shrink(),
-                              widget.project.playstoreLink != null
-                                  ? const SizedBox(
-                                      width: 20,
-                                    )
-                                  : const SizedBox.shrink(),
-                              widget.project.playstoreLink != null
-                                  ? Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(50)),
-                                      child: IconButton(
-                                          onPressed: () async {
-                                            final uri = Uri.parse(
-                                                widget.project.playstoreLink!);
-                                            if (await canLaunchUrl(uri)) {
-                                              await launchUrl(uri);
-                                            }
-                                          },
-                                          icon: Image.network(
-                                            AppAssets.playStoreIconUrl,
-                                            height: 30,
-                                            width: 30,
-                                          )),
-                                    )
-                                  : const SizedBox(),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            _buildProjectImage(),
+            _buildProjectTitle(),
+            if (!isMobile) _buildProjectDetails(),
           ],
         ),
       ),
     );
   }
+
+  Widget _buildProjectImage() {
+    return Image.asset(
+      widget.project.image,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) => Container(
+        color: Colors.grey[200],
+        child: const Center(
+          child: Icon(
+            Icons.error_outline,
+            color: Colors.red,
+            size: 40,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProjectTitle() {
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 0,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.transparent,
+              Colors.black.withOpacity(0.7),
+            ],
+          ),
+        ),
+        child: Text(
+          widget.project.title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProjectDetails() {
+    return MouseRegion(
+      onEnter: (_) => setState(() => isHovered = true),
+      onExit: (_) => setState(() => isHovered = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isHovered
+              ? Theme.of(context).colorScheme.primary.withOpacity(0.9)
+              : Colors.transparent,
+        ),
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 300),
+          opacity: isHovered ? 1.0 : 0.0,
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  widget.project.title,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  widget.project.description,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                _buildTechnologies(),
+                const SizedBox(height: 10),
+                _buildActionButtons(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTechnologies() {
+    return Wrap(
+      spacing: 4,
+      runSpacing: 4,
+      children: widget.project.technologies
+          .map((tech) => Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  tech,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
+                ),
+              ))
+          .toList(),
+    );
+  }
+
+  Widget _buildActionButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (widget.project.githublink != null)
+          _buildActionButton(
+            AppAssets.githubIconUrl,
+            widget.project.githublink!,
+          ),
+        if (widget.project.appleLink != null)
+          _buildActionButton(
+            AppAssets.appStoreIconUrl,
+            widget.project.appleLink!,
+          ),
+        if (widget.project.playstoreLink != null)
+          _buildActionButton(
+            AppAssets.playStoreIconUrl,
+            widget.project.playstoreLink!,
+          ),
+      ],
+    );
+  }
+
+  Widget _buildActionButton(String iconUrl, String link) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(50),
+      ),
+      child: IconButton(
+        onPressed: () => _launchUrl(link),
+        icon: Image.network(
+          iconUrl,
+          height: 30,
+          width: 30,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _launchUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    }
+  }
 }
 
-// Project data
 final List<Project> projects = [
-  const Project(
+  Project(
     githublink: "https://github.com/abdul-salam111/Horumarkaal-App",
     playstoreLink:
         "https://play.google.com/store/apps/details?id=com.horumarkaalapp.multitranslation&pcampaignid=web_share",
@@ -362,7 +327,7 @@ final List<Project> projects = [
     ],
     link: AppAssets.horumarkaalLink,
   ),
-  const Project(
+  Project(
     title: AppStrings.projectGBC,
     githublink: "https://github.com/abdul-salam111/Guided-By-Culture",
     description: AppStrings.projectGBCDesc,
@@ -380,7 +345,7 @@ final List<Project> projects = [
     ],
     link: AppAssets.gbcLink,
   ),
-  const Project(
+  Project(
     githublink: "https://github.com/abdul-salam111/Auction-App",
     title: AppStrings.projectBigStar,
     description: AppStrings.projectBigStarDesc,
@@ -388,9 +353,8 @@ final List<Project> projects = [
     technologies: ['Flutter', 'APIs', 'Getx', 'MVC', 'Git', 'Github', "Sqlite"],
     link: AppAssets.bigStarLink,
   ),
-  const Project(
-    githublink:
-        "https://github.com/abdul-salam111/patient-mgt-system/tree/main",
+  Project(
+    githublink: "https://github.com/abdul-salam111/patient-mgt-system/tree/main",
     title: AppStrings.projectPMS,
     description: AppStrings.projectPMSDesc,
     image: AppAssets.pmsImage,
@@ -406,7 +370,7 @@ final List<Project> projects = [
     ],
     link: AppAssets.pmsLink,
   ),
-  const Project(
+  Project(
     githublink: "https://github.com/abdul-salam111/RAH-Tourism",
     title: AppStrings.projectRAHTourism,
     description: AppStrings.projectRAHTourismDesc,
@@ -424,7 +388,7 @@ final List<Project> projects = [
     ],
     link: AppAssets.rahTourismLink,
   ),
-  const Project(
+  Project(
     githublink: "https://github.com/abdul-salam111/FruitFly-App",
     title: AppStrings.projectFruitFly,
     description: AppStrings.projectFruitFlyDesc,
