@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Favicon</title>
+    <style>
+        canvas {
+            border: 1px solid #ccc;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="favicon32" width="32" height="32"></canvas>
+    <canvas id="favicon192" width="192" height="192"></canvas>
+    <canvas id="favicon512" width="512" height="512"></canvas>
+    <script>
+        function generateIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+
+            // Set background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#0175C2');
+            gradient.addColorStop(1, '#02569B');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+
+            // Add text
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.6}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('AS', size/2, size/2);
+
+            // Add shadow
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+            ctx.shadowBlur = size * 0.04;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = size * 0.008;
+
+            return canvas.toDataURL('image/png');
+        }
+
+        // Generate all sizes
+        const favicon32 = generateIcon('favicon32', 32);
+        const favicon192 = generateIcon('favicon192', 192);
+        const favicon512 = generateIcon('favicon512', 512);
+
+        // Download all files
+        function downloadImage(dataUrl, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = dataUrl;
+            link.click();
+        }
+
+        // Download all icons
+        downloadImage(favicon32, 'favicon.png');
+        downloadImage(favicon192, 'Icon-192.png');
+        downloadImage(favicon512, 'Icon-512.png');
+        downloadImage(favicon192, 'Icon-maskable-192.png');
+        downloadImage(favicon512, 'Icon-maskable-512.png');
+    </script>
+</body>
+</html> 
