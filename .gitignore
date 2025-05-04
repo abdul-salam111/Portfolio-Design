@@ -1,0 +1,26 @@
+# Ignore everything in the build folder
+build/
+# Except for web build (used for GitHub Pages)
+!build/web/
+
+# Dart/Pub
+.dart_tool/
+.packages
+.pub/
+.flutter-plugins
+.flutter-plugins-dependencies
+.melos_tool/
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Misc
+*.log
+*.tmp
+*.lock
+*.bak
+
+# Environment
+.env
