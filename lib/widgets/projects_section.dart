@@ -154,6 +154,8 @@ class _ProjectCardState extends State<ProjectCard> {
   }
 
   Widget _buildProjectTitle() {
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
+    
     return Positioned(
       left: 0,
       right: 0,
@@ -170,13 +172,52 @@ class _ProjectCardState extends State<ProjectCard> {
             ],
           ),
         ),
-        child: Text(
-          widget.project.title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+        child: isMobile
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  if (widget.project.githublink != null)
+                    _buildMobileLinkButton(
+                      AppAssets.githubIconUrl,
+                      widget.project.githublink!,
+                    ),
+                  if (widget.project.playstoreLink != null)
+                    _buildMobileLinkButton(
+                      AppAssets.playStoreIconUrl,
+                      widget.project.playstoreLink!,
+                    ),
+                  if (widget.project.appleLink != null)
+                    _buildMobileLinkButton(
+                      AppAssets.appStoreIconUrl,
+                      widget.project.appleLink!,
+                    ),
+                ],
+              )
+            : Text(
+                widget.project.title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+      ),
+    );
+  }
+
+  Widget _buildMobileLinkButton(String iconUrl, String link) {
+    return GestureDetector(
+      onTap: () => _launchUrl(link),
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.2),
+          shape: BoxShape.circle,
+        ),
+        child: Image.network(
+          iconUrl,
+          height: 24,
+          width: 24,
         ),
       ),
     );
