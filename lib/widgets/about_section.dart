@@ -87,7 +87,9 @@ class AboutSection extends StatelessWidget {
                         ),
                   ),
                   const SizedBox(height: 16),
-                  Row(
+                  Wrap(
+                    spacing: 16,
+                    runSpacing: 16,
                     children: [
                       _buildSocialButton(
                         context,
@@ -95,21 +97,18 @@ class AboutSection extends StatelessWidget {
                         label: AppStrings.github,
                         url: AppStrings.githubUrl,
                       ),
-                      const SizedBox(width: 16),
                       _buildSocialButton(
                         context,
                         icon: AppAssets.linkedinIconUrl,
                         label: AppStrings.linkedin,
                         url: AppStrings.linkedinUrl,
                       ),
-                      const SizedBox(width: 16),
                       _buildSocialButton(
                         context,
                         icon: AppAssets.facebookIconUrl,
                         label: AppStrings.facebook,
                         url: AppStrings.facebookUrl,
                       ),
-                      const SizedBox(width: 16),
                       _buildSocialButton(
                         context,
                         icon: AppStrings.instagramurl,
@@ -137,11 +136,13 @@ class AboutSection extends StatelessWidget {
     required String label,
     required String url,
   }) {
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
     return Container(
       decoration: BoxDecoration(
           border: Border.all(color: AppTheme.primaryColor),
           borderRadius: BorderRadius.circular(50)),
       child: IconButton(
+        padding: EdgeInsets.all(isMobile ? 8 : 12),
         onPressed: () async {
           final uri = Uri.parse(url);
           if (await canLaunchUrl(uri)) {
@@ -150,8 +151,8 @@ class AboutSection extends StatelessWidget {
         },
         icon: Image.network(
           icon,
-          width: 30,
-          height: 30,
+          width: isMobile ? 20 : 30,
+          height: isMobile ? 20 : 30,
         ),
       ),
     );

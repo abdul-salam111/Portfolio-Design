@@ -16,11 +16,11 @@ class AppAssets {
 
   // Project Images
   static const String gbcImage = "assets/images/gbc.png";
-  static const String bigStarImage = "assets/images/big_star.png";
+  static const String bigStarImage = "assets/images/bigstar.png";
   static const String pmsImage = "assets/images/pms.png";
-  static const String horumarkaalImage = "assets/images/horumarkaal.png";
-  static const String rahTourismImage = "assets/images/rah_tourism.png";
-  static const String fruitFlyImage = "assets/images/fruit_fly.png";
+  static const String horumarkaalImage = "assets/images/translation.png";
+  static const String rahTourismImage = "assets/images/bds.png";
+  static const String fruitFlyImage = "assets/images/fruit.png";
   static const String abdulpic = "assets/images/abdul.png";
 
   // External URLs

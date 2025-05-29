@@ -56,7 +56,10 @@ class ProjectsSection extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Theme.of(context).brightness == Brightness.light
                           ? Colors.black54
-                          : Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                          : Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.7),
                     ),
               ),
               GestureDetector(
@@ -87,7 +90,8 @@ class ProjectsSection extends StatelessWidget {
               mainAxisSpacing: 24,
             ),
             itemCount: projects.length,
-            itemBuilder: (context, index) => ProjectCard(project: projects[index]),
+            itemBuilder: (context, index) =>
+                ProjectCard(project: projects[index]),
           ),
         ],
       ),
@@ -110,7 +114,7 @@ class _ProjectCardState extends State<ProjectCard> {
   @override
   Widget build(BuildContext context) {
     final isMobile = ResponsiveBreakpoints.of(context).isMobile;
-    
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
@@ -139,7 +143,7 @@ class _ProjectCardState extends State<ProjectCard> {
   Widget _buildProjectImage() {
     return Image.asset(
       widget.project.image,
-      fit: BoxFit.cover,
+      fit: BoxFit.fill,
       errorBuilder: (context, error, stackTrace) => Container(
         color: Colors.grey[200],
         child: const Center(
@@ -155,7 +159,7 @@ class _ProjectCardState extends State<ProjectCard> {
 
   Widget _buildProjectTitle() {
     final isMobile = ResponsiveBreakpoints.of(context).isMobile;
-    
+
     return Positioned(
       left: 0,
       right: 0,
@@ -348,7 +352,7 @@ class _ProjectCardState extends State<ProjectCard> {
 }
 
 final List<Project> projects = [
-  Project(
+  const Project(
     githublink: "https://github.com/abdul-salam111/Horumarkaal-App",
     playstoreLink:
         "https://play.google.com/store/apps/details?id=com.horumarkaalapp.multitranslation&pcampaignid=web_share",
@@ -368,7 +372,7 @@ final List<Project> projects = [
     ],
     link: AppAssets.horumarkaalLink,
   ),
-  Project(
+  const Project(
     title: AppStrings.projectGBC,
     githublink: "https://github.com/abdul-salam111/Guided-By-Culture",
     description: AppStrings.projectGBCDesc,
@@ -386,7 +390,7 @@ final List<Project> projects = [
     ],
     link: AppAssets.gbcLink,
   ),
-  Project(
+  const Project(
     githublink: "https://github.com/abdul-salam111/Auction-App",
     title: AppStrings.projectBigStar,
     description: AppStrings.projectBigStarDesc,
@@ -394,8 +398,9 @@ final List<Project> projects = [
     technologies: ['Flutter', 'APIs', 'Getx', 'MVC', 'Git', 'Github', "Sqlite"],
     link: AppAssets.bigStarLink,
   ),
-  Project(
-    githublink: "https://github.com/abdul-salam111/patient-mgt-system/tree/main",
+  const Project(
+    githublink:
+        "https://github.com/abdul-salam111/patient-mgt-system/tree/main",
     title: AppStrings.projectPMS,
     description: AppStrings.projectPMSDesc,
     image: AppAssets.pmsImage,
@@ -411,9 +416,9 @@ final List<Project> projects = [
     ],
     link: AppAssets.pmsLink,
   ),
-  Project(
+  const Project(
     githublink: "https://github.com/abdul-salam111/RAH-Tourism",
-    title: AppStrings.projectRAHTourism,
+    title: AppStrings.bookDubaiSafari,
     description: AppStrings.projectRAHTourismDesc,
     image: AppAssets.rahTourismImage,
     technologies: [
@@ -429,7 +434,7 @@ final List<Project> projects = [
     ],
     link: AppAssets.rahTourismLink,
   ),
-  Project(
+  const Project(
     githublink: "https://github.com/abdul-salam111/FruitFly-App",
     title: AppStrings.projectFruitFly,
     description: AppStrings.projectFruitFlyDesc,

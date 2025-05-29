@@ -236,8 +236,8 @@ class _ReviewsSectionState extends State<ReviewsSection> {
 
   Widget _buildReviewCard(BuildContext context, Review review, bool isMobile) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      padding: EdgeInsets.all(isMobile ? 16 : 24),
+      margin: EdgeInsets.symmetric(horizontal: isMobile ? 4 : 8),
+      padding: EdgeInsets.all(isMobile ? 12 : 24),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
@@ -256,12 +256,14 @@ class _ReviewsSectionState extends State<ReviewsSection> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: isMobile ? 50 : 60,
-                height: isMobile ? 50 : 60,
+                width: isMobile ? 40 : 60,
+                height: isMobile ? 40 : 60,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
@@ -277,7 +279,7 @@ class _ReviewsSectionState extends State<ReviewsSection> {
                   ],
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -287,8 +289,10 @@ class _ReviewsSectionState extends State<ReviewsSection> {
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                             color: Theme.of(context).colorScheme.onSurface,
                             fontWeight: FontWeight.bold,
-                            fontSize: isMobile ? 18 : null,
+                            fontSize: isMobile ? 16 : null,
                           ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Text(
                       '${review.position} at ${review.company}',
@@ -297,16 +301,19 @@ class _ReviewsSectionState extends State<ReviewsSection> {
                                 .colorScheme
                                 .onSurface
                                 .withOpacity(0.7),
-                            fontSize: isMobile ? 14 : null,
+                            fontSize: isMobile ? 12 : null,
                           ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
-          Row(
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 4,
             children: List.generate(
               5,
               (index) => Icon(
@@ -314,19 +321,21 @@ class _ReviewsSectionState extends State<ReviewsSection> {
                 color: index < review.rating.floor()
                     ? Theme.of(context).colorScheme.primary
                     : Theme.of(context).colorScheme.primary.withOpacity(0.3),
-                size: isMobile ? 16 : 20,
+                size: isMobile ? 14 : 20,
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           Text(
             review.review,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color:
                       Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
-                  height: 1.6,
-                  fontSize: isMobile ? 14 : null,
+                  height: 1.4,
+                  fontSize: isMobile ? 13 : null,
                 ),
+            maxLines: isMobile ? 3 : null,
+            overflow: isMobile ? TextOverflow.ellipsis : null,
           ),
         ],
       ),
@@ -352,8 +361,7 @@ final List<Review> reviews = [
     company: 'StartUpX',
     review:
         'Working with Abdul was a great experience. His technical expertise and communication skills made the development process smooth and efficient. Highly recommended!',
-    image:
-        'https://media.licdn.com/dms/image/v2/D4E03AQERHxdW9JVbKQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1691516210400?e=2147483647&v=beta&t=n_ttdBTWPG2yeE8yYE_W2RvPmCjUIN6o-gZs4Zn96Lk',
+    image: 'https://thumbs.dreamstime.com/b/business-woman-360-511359.jpg',
     rating: 5.0,
   ),
   const Review(
@@ -363,7 +371,7 @@ final List<Review> reviews = [
     review:
         'Abdul\'s work on our mobile app was exceptional. He not only delivered high-quality code but also provided valuable insights that improved our product significantly.',
     image:
-        'https://media.licdn.com/dms/image/v2/D4E03AQHliby9oBunLw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1709983236263?e=2147483647&v=beta&t=hBLpfuTJK5uZO6nBMZQf2o5zns3x1VSASPFbe1QkcNI',
+        'https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcm0zMjgtMzY2LXRvbmctMDhfMS5qcGc.jpg',
     rating: 5.0,
   ),
   const Review(
@@ -373,7 +381,7 @@ final List<Review> reviews = [
     review:
         'Working with Abdul was a game-changer. His attention to detail and creative solutions helped us launch our campaign ahead of schedule.',
     image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfoGoCBeepyXgyhJNk2fQKvXInLIpbvEHkWw&s',
+        'https://www.shutterstock.com/image-photo/average-middle-aged-woman-smiling-600nw-249721540.jpg',
     rating: 5.0,
   ),
 ];

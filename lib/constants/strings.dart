@@ -41,7 +41,7 @@ class AppStrings {
   static const String projectBigStar = 'Big Star';
   static const String projectPMS = 'Patient Management System';
   static const String projectHorumarkaal = 'Horumarkaal App';
-  static const String projectRAHTourism = 'RAH Tourism';
+  static const String bookDubaiSafari = 'Book Dubai Safari';
   static const String projectFruitFly = 'Fruit Fly Application';
 
   // Project Descriptions
